@@ -12,4 +12,4 @@ RUN npx prisma generate
 
 EXPOSE 4000
 
-CMD ["tsx" ,"watch" ,"src/server.ts"]
+CMD ["npx", "tsx", "watch", "src/server.ts"]
