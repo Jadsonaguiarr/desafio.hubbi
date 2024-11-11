@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(uuid())
+  cpf      String @unique
+  name     String
+  password String @default("")
+
+  admin Boolean @default(false)
+
+  Venda Venda[]
+
+  @@map("user")
+}
+
+model Produto {
+  id   String @id @default(uuid())
+  nome String @unique
+
+  preco Float
+
+  Produto_Venda  Produto_Venda[]
+  Compra_Produto Compra_Produto[]
+
+  @@map("produto")
+}
+
+model Venda {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  status    String   @default("Preparar")
+  total     Float
+
+  id_comprador String
+
+  user User @relation(fields: [id_comprador], references: [id])
+
+  Produto_Venda Produto_Venda[]
+  Compra        Compra[]
+
+  @@map("venda")
+}
+
+model Compra {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  id_venda String
+
+  venda          Venda            @relation(fields: [id_venda], references: [id])
+  Compra_Produto Compra_Produto[]
+
+  @@map("compra")
+}
+
+model Compra_Produto {
+  id          String @id @default(uuid())
+  qtd_produto Int
+
+  id_produto String
+  id_compra  String
+
+  produto Produto @relation(fields: [id_produto], references: [id])
+  compra  Compra  @relation(fields: [id_compra], references: [id])
+
+  @@map("compra_produto")
+}
+
+model Produto_Venda {
+  id          String @id @default(uuid())
+  qtd_produto Int
+
+  status String @default("Em falta")
+
+  id_produto String
+  id_venda   String
+
+  produto Produto @relation(fields: [id_produto], references: [id])
+  venda   Venda   @relation(fields: [id_venda], references: [id])
+
+  @@map("produto_venda")
+}

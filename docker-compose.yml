@@ -1,0 +1,42 @@
+services:
+  app:
+    build: ./backend
+    container_name: node_hubbi
+    ports:
+      - "4000:4000"
+    environment:
+      - DATABASE_URL=postgresql://jadson:1234@db:5432/desafioHubbi
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - db
+    networks:
+      - desafio-hubbi
+
+  frontend:
+    build: ./frontend
+    container_name: node_frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - desafio-hubbi
+
+  db:
+    image: postgres:13
+    container_name: postgres_hubbi
+    environment:
+      POSTGRES_USER: jadson
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: desafioHubbi
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - desafio-hubbi
+
+networks:
+  desafio-hubbi:
+
+volumes:
+  postgres-data:
