@@ -2,7 +2,9 @@ FROM node:18
 
 WORKDIR /app
 
-COPY package*.json ./
+RUN rm -rf node_modules
+
+COPY package.json package-lock.json ./
 # Usar npm ci para garantir que as dependências sejam instaladas corretamente
 RUN npm ci
 
