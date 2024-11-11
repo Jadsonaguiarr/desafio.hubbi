@@ -6,7 +6,7 @@ COPY package*.json ./
 # Usar npm ci para garantir que as dependências sejam instaladas corretamente
 RUN npm ci
 
-RUN npm install
+RUN npm list --depth=0
 
 COPY . .
 
