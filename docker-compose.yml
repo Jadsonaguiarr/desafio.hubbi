@@ -6,8 +6,6 @@ services:
       - "4000:4000"
     environment:
       - DATABASE_URL=postgresql://jadson:1234@db:5432/desafioHubbi
-    volumes:
-      - ./backend:/app
     depends_on:
       - db
     networks:
