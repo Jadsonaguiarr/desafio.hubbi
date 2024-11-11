@@ -1,5 +1,6 @@
 FROM node:18
 
+ENV NEXT_PUBLIC_URL_API=http://localhost:4000
 # Set the working directory in the container
 WORKDIR /app
 
