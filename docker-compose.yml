@@ -5,7 +5,9 @@ services:
     ports:
       - "4000:4000"
     environment:
-      - DATABASE_URL=postgresql://jadson:1234@db:5432/desafioHubbi
+      - DATABASE_URL=${DATABASE_URL}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRESIN=${JWT_EXPIRESIN}
     depends_on:
       - db
     networks:
@@ -14,6 +16,8 @@ services:
   frontend:
     build: ./frontend
     container_name: node_frontend
+    environment:
+      - NEXT_PUBLIC_URL_API=${NEXT_PUBLIC_URL_API}
     ports:
       - "3000:3000"
     networks:
