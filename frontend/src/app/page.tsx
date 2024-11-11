@@ -39,6 +39,10 @@ export default function Home() {
   useEffect(() => {
     const fetchProduto = async () => {
       try {
+        const apiUrl = process.env.NEXT_PUBLIC_URL_API;
+
+        console.log("API URL:", apiUrl);
+
         const produtos = await getAll();
         produtos.map((prod) => {
           prod.qtd = 0;
